@@ -1,0 +1,2 @@
+class ChallanType < ApplicationRecord
+end
