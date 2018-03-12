@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180312134929) do
+ActiveRecord::Schema.define(version: 20180312135442) do
 
   create_table "admins", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -63,6 +63,19 @@ ActiveRecord::Schema.define(version: 20180312134929) do
     t.index ["reset_password_token"], name: "index_citizens_on_reset_password_token", unique: true
   end
 
+  create_table "pollutions", force: :cascade do |t|
+    t.string "pollution_no"
+    t.date "date_of_issue"
+    t.date "date_of_expiry"
+    t.text "place_of_issue"
+    t.integer "vehicle_id"
+    t.integer "citizen_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["citizen_id"], name: "index_pollutions_on_citizen_id"
+    t.index ["vehicle_id"], name: "index_pollutions_on_vehicle_id"
+  end
+
   create_table "trafficpolices", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -86,6 +99,17 @@ ActiveRecord::Schema.define(version: 20180312134929) do
     t.boolean "registered", default: false
     t.index ["email"], name: "index_trafficpolices_on_email", unique: true
     t.index ["reset_password_token"], name: "index_trafficpolices_on_reset_password_token", unique: true
+  end
+
+  create_table "vehicles", force: :cascade do |t|
+    t.string "name"
+    t.string "type"
+    t.date "dop"
+    t.string "registration_no"
+    t.integer "citizen_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["citizen_id"], name: "index_vehicles_on_citizen_id"
   end
 
 end

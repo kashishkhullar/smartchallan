@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  pollution_no: MyString
+  date_of_issue: 2018-03-12
+  date_of_expiry: 2018-03-12
+  place_of_issue: MyText
+  vehicle: one
+  citizen: one
+
+two:
+  pollution_no: MyString
+  date_of_issue: 2018-03-12
+  date_of_expiry: 2018-03-12
+  place_of_issue: MyText
+  vehicle: two
+  citizen: two
