@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  challan_type: one
+  date_of_issue: 2018-03-12
+  time_of_issue: 2018-03-12 19:40:22
+  latitude: 9.99
+  longitude: 9.99
+  address: MyText
+  vehicle: 
+  traffic_police: one
+  citizen: one
+  due_date: 2018-03-12
+
+two:
+  challan_type: two
+  date_of_issue: 2018-03-12
+  time_of_issue: 2018-03-12 19:40:22
+  latitude: 9.99
+  longitude: 9.99
+  address: MyText
+  vehicle: 
+  traffic_police: two
+  citizen: two
+  due_date: 2018-03-12

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180312135442) do
+ActiveRecord::Schema.define(version: 20180312141022) do
 
   create_table "admins", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -38,6 +38,25 @@ ActiveRecord::Schema.define(version: 20180312135442) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "challans", force: :cascade do |t|
+    t.integer "challan_type_id"
+    t.date "date_of_issue"
+    t.time "time_of_issue"
+    t.decimal "latitude"
+    t.decimal "longitude"
+    t.text "address"
+    t.integer "vehicle_id"
+    t.integer "trafficpolice_id"
+    t.integer "citizen_id"
+    t.date "due_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["challan_type_id"], name: "index_challans_on_challan_type_id"
+    t.index ["citizen_id"], name: "index_challans_on_citizen_id"
+    t.index ["trafficpolice_id"], name: "index_challans_on_trafficpolice_id"
+    t.index ["vehicle_id"], name: "index_challans_on_vehicle_id"
   end
 
   create_table "citizens", force: :cascade do |t|
