@@ -15,7 +15,10 @@ Rails.application.routes.draw do
 		  		resources :sessions, only: [:create,:destroy]
 		  		resources :registrations, only: [:create,:destroy]
 		  	end
-
+		  	namespace :trafficpolice, defaults: {format: :json} do
+		  		resources :sessions, only: [:create,:destroy]
+		  		resources :registrations, only: [:create,:destroy]
+		  	end
   		# resources :sessions, only: [:create,:destroy]
   		# resources :admin_registrations, only: [:create]
   		# resources :citizens_sessions, only: [:create,:destroy]
