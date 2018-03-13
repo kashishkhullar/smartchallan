@@ -1,7 +1,7 @@
-class CreateChallanTypes < ActiveRecord::Migration[5.1]
+class CreateChallantypes < ActiveRecord::Migration[5.1]
   def change
-    create_table :challan_types do |t|
-      t.string :type
+    create_table :challantypes do |t|
+      t.string :name
       t.decimal :amount
       t.string :category
       t.text :description

@@ -1,7 +1,7 @@
 class CreateChallans < ActiveRecord::Migration[5.1]
   def change
     create_table :challans do |t|
-      t.references :challan_type, index: true,foreign_key: true
+      t.references :challantype, index: true,foreign_key: true
       t.date :date_of_issue
       t.time :time_of_issue
       t.decimal :latitude

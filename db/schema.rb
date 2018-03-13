@@ -31,17 +31,8 @@ ActiveRecord::Schema.define(version: 20180312143636) do
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
   end
 
-  create_table "challan_types", force: :cascade do |t|
-    t.string "type"
-    t.decimal "amount"
-    t.string "category"
-    t.text "description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "challans", force: :cascade do |t|
-    t.integer "challan_type_id"
+    t.integer "challantype_id"
     t.date "date_of_issue"
     t.time "time_of_issue"
     t.decimal "latitude"
@@ -53,10 +44,19 @@ ActiveRecord::Schema.define(version: 20180312143636) do
     t.date "due_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["challan_type_id"], name: "index_challans_on_challan_type_id"
+    t.index ["challantype_id"], name: "index_challans_on_challantype_id"
     t.index ["citizen_id"], name: "index_challans_on_citizen_id"
     t.index ["trafficpolice_id"], name: "index_challans_on_trafficpolice_id"
     t.index ["vehicle_id"], name: "index_challans_on_vehicle_id"
+  end
+
+  create_table "challantypes", force: :cascade do |t|
+    t.string "name"
+    t.decimal "amount"
+    t.string "category"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "citizens", force: :cascade do |t|
@@ -124,7 +124,7 @@ ActiveRecord::Schema.define(version: 20180312143636) do
 
   create_table "vehicles", force: :cascade do |t|
     t.string "name"
-    t.string "type"
+    t.string "category"
     t.date "dop"
     t.string "registration_no"
     t.integer "citizen_id"
