@@ -51,7 +51,7 @@ class Api::V1::Trafficpolice::SessionsController < ApplicationController
 		if current_trafficpolice
 			return true
 		else
-				render json:{status: "ERROR",message: "Unauthorized Access",data: :false},status: :unauthorized
+			render json:{status: "ERROR",message: "Unauthorized Access",data: :false},status: :unauthorized
 		end
 
 	end

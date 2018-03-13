@@ -25,7 +25,11 @@ Rails.application.routes.draw do
   		# resources :citizens_registrations, only: [:create]
   		# resources :commercial_sessions, only: [:create,:destroy]
   		# resources :commercial_registrations, only: [:create]
-  		# resources :challans
+  		  resources :challans, only: [:create,:destroy,:update]
+  		  post 'challan/all' => 'challans#index'
+  		  post 'challan/show'=> 'challans#show'
+  		  post 'challan/create'=>'challans#create'
+  		  post 'challan/show/date' => 'challans#show_dated'
   	end
   end
 

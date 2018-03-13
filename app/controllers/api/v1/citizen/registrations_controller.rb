@@ -28,7 +28,7 @@ class Api::V1::Citizen::RegistrationsController < ApplicationController
 				render json:{status: "ERROR",message: "Failure",data: :false},status: :unprocessed_entity
 			end
 		else
-				render json:{status: "ERROR",message: "Unauthorized Access",data: :false},status: :unauthorized
+			render json:{status: "ERROR",message: "Unauthorized Access",data: :false},status: :unauthorized
 
 		end
 
@@ -40,7 +40,7 @@ class Api::V1::Citizen::RegistrationsController < ApplicationController
 		if current_citizen
 			return true
 		else
-				render json:{status: "ERROR",message: "Unauthorized Access",data: :false},status: :unauthorized
+			render json:{status: "ERROR",message: "Unauthorized Access",data: :false},status: :unauthorized
 		end
 
 	end

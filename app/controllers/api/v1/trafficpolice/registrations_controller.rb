@@ -28,7 +28,7 @@ acts_as_token_authentication_handler_for Trafficpolice, fallback: :none
 				render json:{status: "ERROR",message: "Failure",data: :false},status: :unprocessed_entity
 			end
 		else
-				render json:{status: "ERROR",message: "Unauthorized Access",data: :false},status: :unauthorized
+			render json:{status: "ERROR",message: "Unauthorized Access",data: :false},status: :unauthorized
 
 		end
 
@@ -40,7 +40,7 @@ acts_as_token_authentication_handler_for Trafficpolice, fallback: :none
 		if current_trafficpolice
 			return true
 		else
-				render json:{status: "ERROR",message: "Unauthorized Access",data: :false},status: :unauthorized
+			render json:{status: "ERROR",message: "Unauthorized Access",data: :false},status: :unauthorized
 		end
 
 	end
