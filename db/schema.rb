@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180312143636) do
+ActiveRecord::Schema.define(version: 20180313085049) do
 
   create_table "admins", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -27,6 +27,8 @@ ActiveRecord::Schema.define(version: 20180312143636) do
     t.datetime "updated_at", null: false
     t.string "mobile"
     t.string "admin_key"
+    t.string "authentication_token", limit: 30
+    t.index ["authentication_token"], name: "index_admins_on_authentication_token", unique: true
     t.index ["email"], name: "index_admins_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
   end
@@ -78,6 +80,8 @@ ActiveRecord::Schema.define(version: 20180312143636) do
     t.string "aadhar_no"
     t.date "dob"
     t.text "address"
+    t.string "authentication_token", limit: 30
+    t.index ["authentication_token"], name: "index_citizens_on_authentication_token", unique: true
     t.index ["email"], name: "index_citizens_on_email", unique: true
     t.index ["reset_password_token"], name: "index_citizens_on_reset_password_token", unique: true
   end
