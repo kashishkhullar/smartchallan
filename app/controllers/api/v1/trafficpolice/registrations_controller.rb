@@ -6,14 +6,29 @@ acts_as_token_authentication_handler_for Trafficpolice, fallback: :none
 
 	def create
 
-		@trafficpolice = Trafficpolice.new(trafficpolice_params)
-		if(@trafficpolice.save)
-			render json: {status:"SUCCESS",message: "Registration Successful",data: @trafficpolice.as_json(only: [:email,:mobile,:authentication_token,:first_name,:last_name,:dob,:aadhar_no,:address,:police_key,:admin_id])},status: :created
+		puts params
+		puts trafficpolice_params
+
+		if trafficpolice_params[:trafficpolice_key]
+
+			@key = TrafficpoliceKey.where(trafficpolice_key: trafficpolice_params[:trafficpolice_key]).first
+			puts @key
+
+			if @key
+				@trafficpolice = Trafficpolice.new(trafficpolice_params)
+				if(@trafficpolice.save)
+					render json: {status:"SUCCESS",message: "Registration Successful",data: @trafficpolice.as_json(only: [:email,:mobile,:authentication_token,:first_name,:last_name,:dob,:aadhar_no,:address,:police_key,:admin_id])},status: :created
+				else
+					render json: {status:"ERROR",message: "Registration Failed",data: :false},status: :unauthorized
+				end
+			else
+					render json: {status:"ERROR",message: "Registration Failed",data: :false},status: :unauthorized
+
+			end			
 		else
-			render json: {status:"ERROR",message: "Registration Failed",data: :false},status: :unauthorized
+					render json: {status:"ERROR",message: "Registration Failed",data: :false},status: :unauthorized
+
 		end
-
-
 
 	end
 
@@ -57,6 +72,6 @@ acts_as_token_authentication_handler_for Trafficpolice, fallback: :none
 	end
 
 	def trafficpolice_params
-		params.require(:trafficpolice).permit(:email,:password,:password_confirmation,:mobile,:first_name,:last_name,:dob,:aadhar_no,:address,:police_key,:admin_id)
+		params.require(:trafficpolice).permit(:email,:password,:password_confirmation,:mobile,:first_name,:last_name,:dob,:aadhar_no,:address,:admin_id,:trafficpolice_key)
 	end
 end

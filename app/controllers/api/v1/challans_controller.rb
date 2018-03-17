@@ -13,11 +13,12 @@ class Api::V1::ChallansController < ApplicationController
 	def show
 		@challan = Challan.where(id:challan_params[:challan_id]).first
 		render json: {status:"SUCCESS",message: "Loaded Challan",data: @challan.as_json(include: [:vehicle,:challantype,:citizen,:trafficpolice])},status: :ok
+		#render json: {status:"SUCCESS",message: "Loaded Challan",data: @challan},status: :ok
 	end
 
 	def show_dated
 		@challans = Challan.where(date_of_issue:params[:challan][:date])
-				render json: {status:"SUCCESS",message: "Loaded Challan",data: @challans.as_json(include: [:vehicle,:challantype,:citizen,:trafficpolice])},status: :ok
+		render json: {status:"SUCCESS",message: "Loaded Challan",data: @challans.as_json(include: [:vehicle,:challantype,:citizen,:trafficpolice])},status: :ok
 
 	end
 

@@ -10,7 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180313111933) do
+ActiveRecord::Schema.define(version: 20180317193243) do
+
+  create_table "admin_keys", force: :cascade do |t|
+    t.string "admin_key"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "admins", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -99,6 +105,12 @@ ActiveRecord::Schema.define(version: 20180313111933) do
     t.index ["vehicle_id"], name: "index_pollutions_on_vehicle_id"
   end
 
+  create_table "trafficpolice_keys", force: :cascade do |t|
+    t.string "trafficpolice_key"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "trafficpolices", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -118,7 +130,7 @@ ActiveRecord::Schema.define(version: 20180313111933) do
     t.string "aadhar_no"
     t.date "dob"
     t.text "address"
-    t.string "police_key"
+    t.string "trafficpolice_key"
     t.boolean "registered", default: false
     t.integer "admin_id"
     t.string "authentication_token", limit: 30

@@ -6,7 +6,7 @@ class AddColumnToTrafficpolices < ActiveRecord::Migration[5.1]
     add_column :trafficpolices, :aadhar_no, :string
     add_column :trafficpolices, :dob, :date
     add_column :trafficpolices, :address, :text
-    add_column :trafficpolices, :police_key, :string, :presence => true
+    add_column :trafficpolices, :trafficpolice_key, :string, :presence => true
     add_column :trafficpolices, :registered, :boolean, :default=> false
 
   end

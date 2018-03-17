@@ -1,21 +1,29 @@
 class Api::V1::Admin::RegistrationsController < ApplicationController
 	acts_as_token_authentication_handler_for Admin, fallback: :none
 
-	before_action :admin_signed_in?, only: [:destroy]
+	before_action :admin_signed_in?, only: [:destroy,:create_traffic_police]
 	before_action :admin_signed_out?, only: [:create]
 
 	def create
 
-		@admin = Admin.new(admin_params)
+		if admin_params[:admin_key]
 
-		if(@admin.save!)
-			render json: {status:"SUCCESS",message: "Registration Successful",data: @admin.as_json(only: [:email,:mobile,:authentication_token])},status: :created
+			@key = AdminKey.where(admin_key: admin_params[:admin_key]).first
+
+			if @key
+				@admin.new(admin_params)
+				if(@admin.save)
+					render json: {status:"SUCCESS",message: "Registration Successful",data: @admin.as_json(only: [:email,:mobile,:authentication_token])},status: :created
+				else
+					render json: {status:"ERROR",message: "Registration Failed",data: :false},status: :unauthorized
+				end
+			else
+					render json: {status:"ERROR",message: "Registration Failed",data: :false},status: :unauthorized
+			end
 		else
-			render json: {status:"ERROR",message: "Registration Failed",data: :false},status: :unauthorized
+					render json: {status:"ERROR",message: "Registration Failed",data: :false},status: :unauthorized
+
 		end
-
-
-
 	end
 
 	def destroy
@@ -33,6 +41,14 @@ class Api::V1::Admin::RegistrationsController < ApplicationController
 
 		end
 
+	end
+
+	def create_traffic_police
+
+		@trafficpolice_key = TrafficpoliceKey.new
+		@trafficpolice_key.trafficpolice_key = (0...8).map { (65 + rand(26)).chr }.join
+		@trafficpolice_key.save
+		render json:{status: "SUCCESS",message: "Traffic Police Account Created",data: @trafficpolice_key.as_json(only:[:trafficpolice_key])},status: :ok
 	end
 
 	private
@@ -56,6 +72,6 @@ class Api::V1::Admin::RegistrationsController < ApplicationController
 	end
 
 	def admin_params
-		params.require(:admin).permit(:email,:password,:password_confirmation,:mobile)
+		params.require(:admin).permit(:email,:password,:password_confirmation,:mobile,:admin_key)
 	end
 end

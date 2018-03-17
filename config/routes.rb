@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   		  	namespace :admin, defaults: {format: :json} do
   		  		resources :sessions, only: [:create,:destroy]
   		  		resources :registrations, only: [:create,:destroy]
+  		  		post 'new_traffic_police' => 'registrations#create_traffic_police'
   		  	end
 		  	namespace :citizen, defaults: {format: :json} do
 		  		resources :sessions, only: [:create,:destroy]
