@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  commerciasls: one
+  citizens: one
+  vehicle: one
+  start_date: 2018-03-20
+  end_date: 2018-03-20
+
+two:
+  commerciasls: two
+  citizens: two
+  vehicle: two
+  start_date: 2018-03-20
+  end_date: 2018-03-20

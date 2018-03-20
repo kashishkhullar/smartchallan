@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  devise_for :commercials
   devise_for :trafficpolices
   devise_for :admins
   devise_for :citizens
@@ -20,6 +21,14 @@ Rails.application.routes.draw do
 		  		resources :sessions, only: [:create,:destroy]
 		  		resources :registrations, only: [:create,:destroy]
 		  	end
+		  	namespace :commercial, defaults: {format: :json} do
+		  		resources :sessions, only: [:create,:destroy]
+		  		resources :registrations, only: [:create,:destroy]
+		  		resources :drivers
+		  		post 'vehicles/register' =>'vehicles#create'
+		  		post 'vehicles/unregister'=>'vehicles#destroy'
+		  	end
+
   		# resources :sessions, only: [:create,:destroy]
   		# resources :admin_registrations, only: [:create]
   		# resources :citizens_sessions, only: [:create,:destroy]

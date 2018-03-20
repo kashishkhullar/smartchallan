@@ -23,12 +23,12 @@ class Api::V1::ChallansController < ApplicationController
 	end
 
 	def create
-		puts params
+		# puts params
 		@challan = Challan.new(challan_params)
-		puts @challan.as_json
+		# puts @challan.as_json
 		@vehicle = Vehicle.where(registration_no: params[:challan][:registration_no]).first
-		puts "vehicle"
-		puts @vehicle.as_json
+		# puts "vehicle"
+		# puts @vehicle.as_json
 		@challan.vehicle_id = @vehicle.id
 		@challan.citizen_id = @vehicle.citizen.id
 		@challan.trafficpolice_id = current_trafficpolice.id

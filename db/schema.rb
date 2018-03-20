@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180317193243) do
+ActiveRecord::Schema.define(version: 20180320180550) do
 
   create_table "admin_keys", force: :cascade do |t|
     t.string "admin_key"
@@ -87,9 +87,49 @@ ActiveRecord::Schema.define(version: 20180317193243) do
     t.date "dob"
     t.text "address"
     t.string "authentication_token", limit: 30
+    t.integer "commercial_id"
     t.index ["authentication_token"], name: "index_citizens_on_authentication_token", unique: true
+    t.index ["commercial_id"], name: "index_citizens_on_commercial_id"
     t.index ["email"], name: "index_citizens_on_email", unique: true
     t.index ["reset_password_token"], name: "index_citizens_on_reset_password_token", unique: true
+  end
+
+  create_table "commercialdrivers", force: :cascade do |t|
+    t.integer "commercials_id"
+    t.integer "citizens_id"
+    t.integer "vehicle_id"
+    t.date "start_date"
+    t.date "end_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["citizens_id"], name: "index_commercialdrivers_on_citizens_id"
+    t.index ["commercials_id"], name: "index_commercialdrivers_on_commercials_id"
+    t.index ["vehicle_id"], name: "index_commercialdrivers_on_vehicle_id"
+  end
+
+  create_table "commercials", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer "sign_in_count", default: 0, null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string "current_sign_in_ip"
+    t.string "last_sign_in_ip"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "identification_no"
+    t.string "company_name"
+    t.string "owner_name"
+    t.text "address"
+    t.string "mobile"
+    t.string "phone_no"
+    t.string "authentication_token", limit: 30
+    t.index ["authentication_token"], name: "index_commercials_on_authentication_token", unique: true
+    t.index ["email"], name: "index_commercials_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_commercials_on_reset_password_token", unique: true
   end
 
   create_table "pollutions", force: :cascade do |t|
@@ -148,7 +188,9 @@ ActiveRecord::Schema.define(version: 20180317193243) do
     t.integer "citizen_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "commercial_id"
     t.index ["citizen_id"], name: "index_vehicles_on_citizen_id"
+    t.index ["commercial_id"], name: "index_vehicles_on_commercial_id"
   end
 
 end

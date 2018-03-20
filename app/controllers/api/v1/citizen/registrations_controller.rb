@@ -56,6 +56,6 @@ class Api::V1::Citizen::RegistrationsController < ApplicationController
 	end
 
 	def citizen_params
-		params.require(:citizen).permit(:email,:password,:mobile,:first_name,:last_name,:dob,:aadhar_no,:address)
+		params.require(:citizen).permit(:email,:password,:password_confirmation,:mobile,:first_name,:last_name,:dob,:aadhar_no,:address)
 	end
 end
