@@ -12,6 +12,7 @@ class Api::V1::Admin::RegistrationsController < ApplicationController
 
 			if @key
 				@admin =Admin.new(admin_params)
+				@admin.registered = true
 				if(@admin.save!)
 					# render json: {status:"SUCCESS",message: "Registration Successful",data: @admin.as_json(only: [:email,:mobile,:authentication_token])},status: :created
 					render json: {status:"SUCCESS",message: "Registration Successful",data: AdminSerializer.new(@admin)},status: :created
