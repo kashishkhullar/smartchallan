@@ -11,17 +11,18 @@ class Api::V1::Admin::RegistrationsController < ApplicationController
 			@key = AdminKey.where(admin_key: admin_params[:admin_key]).first
 
 			if @key
-				@admin.new(admin_params)
-				if(@admin.save)
-					render json: {status:"SUCCESS",message: "Registration Successful",data: @admin.as_json(only: [:email,:mobile,:authentication_token])},status: :created
+				@admin =Admin.new(admin_params)
+				if(@admin.save!)
+					# render json: {status:"SUCCESS",message: "Registration Successful",data: @admin.as_json(only: [:email,:mobile,:authentication_token])},status: :created
+					render json: {status:"SUCCESS",message: "Registration Successful",data: AdminSerializer.new(@admin)},status: :created
 				else
-					render json: {status:"ERROR",message: "Registration Failed",data: :false},status: :unauthorized
+					render json: {status:"ERROR",message: "Registration Failed error while saving",data: :false},status: :unauthorized
 				end
 			else
-					render json: {status:"ERROR",message: "Registration Failed",data: :false},status: :unauthorized
+					render json: {status:"ERROR",message: "Registration Failed key not found",data: :false},status: :unauthorized
 			end
 		else
-					render json: {status:"ERROR",message: "Registration Failed",data: :false},status: :unauthorized
+					render json: {status:"ERROR",message: "Registration Failed key missing in params",data: :false},status: :unauthorized
 
 		end
 	end
@@ -34,13 +35,21 @@ class Api::V1::Admin::RegistrationsController < ApplicationController
 			if @admin&.destroy!
 				render json: {status: "SUCCESS",message: "Account Deleted",data: @admin.as_json(only: [:email])},status: :ok
 			else
-				render json:{status: "ERROR",message: "Failure",data: :false},status: :unprocessed_entity
+				render json:{status: "ERROR",message: "Failure error whiel destroying",data: :false},status: :unprocessed_entity
 			end
 		else
-				render json:{status: "ERROR",message: "Unauthorized Access",data: :false},status: :unauthorized
+				render json:{status: "ERROR",message: "Unauthorized Access credentials invalid",data: :false},status: :unauthorized
 
 		end
 
+	end
+
+	def create_admin
+
+		@admin_key = AdminKey.new
+		@admin_key.admin_key = (0...8).map { (65 + rand(26)).chr }.join
+		@admin_key.save
+		render json:{status: "SUCCESS",message: "Admin Account Created",data: @admin_key.as_json(only:[:admin_key])},status: :ok
 	end
 
 	def create_traffic_police

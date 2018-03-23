@@ -11,7 +11,8 @@ Rails.application.routes.draw do
   		  	namespace :admin, defaults: {format: :json} do
   		  		resources :sessions, only: [:create,:destroy]
   		  		resources :registrations, only: [:create,:destroy]
-  		  		post 'new_traffic_police' => 'registrations#create_traffic_police'
+  		  		post 'registrations/new_traffic_police' => 'registrations#create_traffic_police'
+            post 'registrations/new_admin' => 'registrations#create_admin'
   		  	end
 		  	namespace :citizen, defaults: {format: :json} do
 		  		resources :sessions, only: [:create,:destroy]
@@ -24,7 +25,9 @@ Rails.application.routes.draw do
 		  	namespace :commercial, defaults: {format: :json} do
 		  		resources :sessions, only: [:create,:destroy]
 		  		resources :registrations, only: [:create,:destroy]
-		  		resources :drivers
+		  		resources :drivers, only: [:create,:destroy,:update]
+          post'drivers/all' =>'drivers#index'
+           post'drivers/show' =>'drivers#show'
 		  		post 'vehicles/register' =>'vehicles#create'
 		  		post 'vehicles/unregister'=>'vehicles#destroy'
 		  	end
@@ -42,5 +45,4 @@ Rails.application.routes.draw do
   		  post 'challan/show/date' => 'challans#show_dated'
   	end
   end
-
 end

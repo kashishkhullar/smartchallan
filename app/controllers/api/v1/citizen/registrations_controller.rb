@@ -7,8 +7,8 @@ class Api::V1::Citizen::RegistrationsController < ApplicationController
 	def create
 
 		@citizen = Citizen.new(citizen_params)
-		if(@citizen.save)
-			render json: {status:"SUCCESS",message: "Registration Successful",data: @citizen.as_json(only: [:email,:mobile,:authentication_token,:first_name,:last_name,:dob,:aadhar_no,:address])},status: :created
+		if(@citizen.save!)
+			render json: {status:"SUCCESS",message: "Registration Successful",data: @citizen.as_json(only: [:email,:mobile,:authentication_token,:first_name,:last_name,:dob,:aadhar_no,:dlnumber,:address,:pincode])},status: :created
 		else
 			render json: {status:"ERROR",message: "Registration Failed",data: :false},status: :unauthorized
 		end
@@ -23,7 +23,7 @@ class Api::V1::Citizen::RegistrationsController < ApplicationController
 
 		if @citizen&.valid_password?(citizen_params[:password])
 			if @citizen&.destroy!
-				render json: {status: "SUCCESS",message: "Account Deleted",data: @citizen.as_json(only: [:email,:first_name,:last_name,:dob,:aadhar_no,:address])},status: :ok
+				render json: {status: "SUCCESS",message: "Account Deleted",data: @citizen.as_json(only: [:email,:first_name,:last_name,:dob,:aadhar_no,:address,:pincode,:dlnumber])},status: :ok
 			else
 				render json:{status: "ERROR",message: "Failure",data: :false},status: :unprocessed_entity
 			end
@@ -50,12 +50,12 @@ class Api::V1::Citizen::RegistrationsController < ApplicationController
 		if current_citizen.nil?
 			return true
 		else
-			render json: {status:"ERROR",message: "Already Logged In",data: current_citizen.as_json(only: [:email,:mobile,:authentication_token,:first_name,:last_name,:dob,:aadhar_no,:address])},status: :ok
+			render json: {status:"ERROR",message: "Already Logged In",data: current_citizen.as_json(only: [:email,:mobile,:authentication_token,:dlnumber,:first_name,:last_name,:dob,:aadhar_no,:address,:pincode])},status: :ok
 		end
 
 	end
 
 	def citizen_params
-		params.require(:citizen).permit(:email,:password,:password_confirmation,:mobile,:first_name,:last_name,:dob,:aadhar_no,:address)
+		params.require(:citizen).permit(:email,:password,:password_confirmation,:mobile,:first_name,:last_name,:dob,:aadhar_no,:address,:dlnumber,:pincode)
 	end
 end

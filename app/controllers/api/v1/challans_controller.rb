@@ -6,19 +6,28 @@ class Api::V1::ChallansController < ApplicationController
 
 
 	def index
-		@challans = Vehicle.where(registration_no:challan_params[:registration_no]).first.challans
-		render json: {status:"SUCCESS",message: "Loaded Challans",data: @challans.as_json(only: [:id,:challantype_id,:date_of_issue,:time_of_issue,:latitude,:longitude,:address,:due_date])},status: :ok
+		# @challans = Vehicle.where(registration_no:challan_params[:registration_no]).first.challans
+		vehicle = Vehicle.where(registration_no:challan_params[:registration_no]).first
+		puts vehicle
+		if vehicle
+			@challans = vehicle.challans
+		else
+			@challans = nil
+		end
+		# render json: {status:"SUCCESS",message: "Loaded Challans",data: @challans.as_json(only: [:id,:challantype_id,:date_of_issue,:time_of_issue,:latitude,:longitude,:address,:due_date])},status: :ok
+		# render json: {status:"SUCCESS",message: "Loaded Challan",data: @challans.as_json(include: [:vehicle,:challantype,:citizen,:trafficpolice])},status: :ok
+		render json: {status:"SUCCESS",message: "Loaded Challan",data: ActiveModel::Serializer::CollectionSerializer.new(@challans, each_serializer: ChallanSerializer)},status: :ok
 	end
 
 	def show
 		@challan = Challan.where(id:challan_params[:challan_id]).first
-		render json: {status:"SUCCESS",message: "Loaded Challan",data: @challan.as_json(include: [:vehicle,:challantype,:citizen,:trafficpolice])},status: :ok
-		#render json: {status:"SUCCESS",message: "Loaded Challan",data: @challan},status: :ok
+		# render json: {status:"SUCCESS",message: "Loaded Challan",data: @challan.as_json(include: [:vehicle,:challantype,:citizen,:trafficpolice])},status: :ok
+		render json: {status:"SUCCESS",message: "Loaded Challan",data: ChallanSerializer.new(@challan)},status: :ok
 	end
 
 	def show_dated
 		@challans = Challan.where(date_of_issue:params[:challan][:date])
-		render json: {status:"SUCCESS",message: "Loaded Challan",data: @challans.as_json(include: [:vehicle,:challantype,:citizen,:trafficpolice])},status: :ok
+		render json: {status:"SUCCESS",message: "Loaded Challan",data: ActiveModel::Serializer::CollectionSerializer.new(@challans, each_serializer: ChallanSerializer)},status: :ok
 
 	end
 
@@ -34,7 +43,7 @@ class Api::V1::ChallansController < ApplicationController
 		@challan.trafficpolice_id = current_trafficpolice.id
 		@challan.due_date = DateTime.now.to_date + 7.days
 		if @challan.save
-			render json: {status:"SUCCESS",message: "Challan Created Successfully",data: @challan.as_json(include: [:vehicle,:challantype,:citizen])},status: :ok
+			render json: {status:"SUCCESS",message: "Challan Created Successfully",data: ActiveModel::Serializer::CollectionSerializer.new(@challans, each_serializer: ChallanSerializer)},status: :ok
 		else
 			render json: {status:"ERROR",message: "Challan Creation Failed",data: :false},status: :unprocessed_entity
 		end
@@ -49,7 +58,7 @@ class Api::V1::ChallansController < ApplicationController
 	private
 
 	def challan_params
-		params.require(:challan).permit(:challan_id,:challantype_id,:date_of_issue,:time_of_issue,:latitude,:longitude,:address)
+		params.require(:challan).permit(:challan_id,:challantype_id,:date_of_issue,:time_of_issue,:latitude,:longitude,:address,:registration_no)
 	end
 
 

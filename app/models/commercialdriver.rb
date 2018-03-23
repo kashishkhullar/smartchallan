@@ -1,5 +1,5 @@
 class Commercialdriver < ApplicationRecord
-  belongs_to :commercials
-  belongs_to :citizens
+  belongs_to :commercial
+  belongs_to :citizen
   belongs_to :vehicle
 end

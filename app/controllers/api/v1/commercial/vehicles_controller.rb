@@ -7,7 +7,7 @@ class Api::V1::Commercial::VehiclesController < ApplicationController
 		if @vehicle
 			@vehicle.commercial_id = current_commercial.id
 			if @vehicle.save
-				render json:{status: "SUCCESS",message: "Vehicle Registersed Successfully",data: @vehicle.as_json},status: :created
+				render json:{status: "SUCCESS",message: "Vehicle Registersed Successfully",data: VehicleSerializer.new(@vehicle)},status: :created
 			else
 
 				render json: {status:"ERROR",message: "Vehicle Registration Failed",data: :false},status: :unprocessed_entity
@@ -24,7 +24,8 @@ class Api::V1::Commercial::VehiclesController < ApplicationController
 		@vehicle = Vehicle.where(registration_no: commercial_vehicle_params[:registration_no]).first
 		if @vehicle
 			@vehicle.commercial_id = nil
-				render json:{status: "SUCCESS",message: "Vehicle Unregistersed Successfully",data: @vehicle.as_json},status: :created
+			if @vehicle.save!
+				render json:{status: "SUCCESS",message: "Vehicle Unregistersed Successfully",data: VehicleSerializer.new(@vehicle)},status: :created
 			else
 
 				render json: {status:"ERROR",message: "Vehicle Unregistration Failed",data: :false},status: :unprocessed_entity

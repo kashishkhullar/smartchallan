@@ -6,29 +6,39 @@ acts_as_token_authentication_handler_for Trafficpolice, fallback: :none
 
 	def create
 
-		puts params
-		puts trafficpolice_params
+		 puts "traffic_params"
+		 puts trafficpolice_params
+		puts "here is the request"
 
 		if trafficpolice_params[:trafficpolice_key]
 
-			@key = TrafficpoliceKey.where(trafficpolice_key: trafficpolice_params[:trafficpolice_key]).first
-			puts @key
+			puts "here"
+			puts trafficpolice_params
+
+
+			@key = TrafficpoliceKey.where(trafficpolice_key: trafficpolice_params['trafficpolice_key']).first
+			puts @key.trafficpolice_key
 
 			if @key
 				@trafficpolice = Trafficpolice.new(trafficpolice_params)
-				if(@trafficpolice.save)
-					render json: {status:"SUCCESS",message: "Registration Successful",data: @trafficpolice.as_json(only: [:email,:mobile,:authentication_token,:first_name,:last_name,:dob,:aadhar_no,:address,:police_key,:admin_id])},status: :created
+				puts trafficpolice_params
+				if(@trafficpolice.save!)
+					puts "dasdasd"
+					puts @trafficpolice
+					# render string: "created"
+					render json: {status:"SUCCESS",message: "Registration Successful",data: @trafficpolice.as_json(only: [:email,:mobile,:authentication_token,:first_name,:last_name,:dob,:aadhar_no,:address,:trafficpolice_key,:admin_id])},status: :created
+					# render json: {status:"SUCCESS",message: "Registration Successful",data: true},status: :created
 				else
-					render json: {status:"ERROR",message: "Registration Failed",data: :false},status: :unauthorized
+					render json: {status:"ERROR",message: "Registration Failed",data: :false},satus: :unauthorized
+					# render json: "dasdasd"
 				end
 			else
 					render json: {status:"ERROR",message: "Registration Failed",data: :false},status: :unauthorized
-
 			end			
 		else
 					render json: {status:"ERROR",message: "Registration Failed",data: :false},status: :unauthorized
-
 		end
+		# render json: "response"
 
 	end
 
@@ -61,17 +71,24 @@ acts_as_token_authentication_handler_for Trafficpolice, fallback: :none
 	end
 
 	def trafficpolice_signed_out?
-		puts current_trafficpolice
-		puts "hereh hrer hrere"
-		if current_trafficpolice.nil?
-			return true
-		else
+		# puts current_trafficpolice
+		# puts "hereh hrer hrere"
+		if current_trafficpolice
+		# 	return true
+		# else
 			render json: {status:"ERROR",message: "Already Logged In",data: current_trafficpolice.as_json(only: [:email,:mobile,:authentication_token,:first_name,:last_name,:dob,:aadhar_no,:address])},status: :ok
 		end
 
 	end
 
 	def trafficpolice_params
-		params.require(:trafficpolice).permit(:email,:password,:password_confirmation,:mobile,:first_name,:last_name,:dob,:aadhar_no,:address,:admin_id,:trafficpolice_key)
+	  # params
+	  # puts "params as json"
+	  # puts params.as_json
+	  # puts "test"
+	  # puts params.keys.first.as_json
+	  # params.keys.first.as_json
+	  # return JSON.parse(params.keys.first)
+	  params.require(:trafficpolice).permit(:email,:password,:password_confirmation,:mobile,:first_name,:last_name,:dob,:aadhar_no,:address,:admin_id,:trafficpolice_key)
 	end
 end

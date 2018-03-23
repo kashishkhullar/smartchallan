@@ -10,7 +10,7 @@ class Api::V1::Commercial::RegistrationsController < ApplicationController
 		if(@commercial.save)
 			render json: {status:"SUCCESS",message: "Registration Successful",data: @commercial.as_json(only: [:email,:mobile,:authentication_token,:phone_no,:company_name,:owner_name,:identification_no,:address])},status: :created
 		else
-			render json: {status:"ERROR",message: "Registration Failed",data: :false},status: :unauthorized
+			render json: {status:"ERROR",message: "Registration Failed while saving",data: :false},status: :unauthorized
 		end
 
 
