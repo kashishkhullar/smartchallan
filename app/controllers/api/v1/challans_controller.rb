@@ -7,16 +7,19 @@ class Api::V1::ChallansController < ApplicationController
 
 	def index
 		# @challans = Vehicle.where(registration_no:challan_params[:registration_no]).first.challans
-		vehicle = Vehicle.where(registration_no:challan_params[:registration_no]).first
+		vehicle = Vehicle.where(registration_no:params[:challan][:registration_no]).first
 		puts vehicle
 		if vehicle
 			@challans = vehicle.challans
+			render json: {status:"SUCCESS",message: "Loaded Challan",data: ActiveModel::Serializer::CollectionSerializer.new(@challans, each_serializer: ChallanSerializer)},status: :ok
+
 		else
 			@challans = nil
+			render json: {status:"SUCCESS",message: "Loaded Challan",data: :false},status: :ok
+
 		end
 		# render json: {status:"SUCCESS",message: "Loaded Challans",data: @challans.as_json(only: [:id,:challantype_id,:date_of_issue,:time_of_issue,:latitude,:longitude,:address,:due_date])},status: :ok
 		# render json: {status:"SUCCESS",message: "Loaded Challan",data: @challans.as_json(include: [:vehicle,:challantype,:citizen,:trafficpolice])},status: :ok
-		render json: {status:"SUCCESS",message: "Loaded Challan",data: ActiveModel::Serializer::CollectionSerializer.new(@challans, each_serializer: ChallanSerializer)},status: :ok
 	end
 
 	def show
@@ -42,8 +45,11 @@ class Api::V1::ChallansController < ApplicationController
 		@challan.citizen_id = @vehicle.citizen.id
 		@challan.trafficpolice_id = current_trafficpolice.id
 		@challan.due_date = DateTime.now.to_date + 7.days
-		if @challan.save
-			render json: {status:"SUCCESS",message: "Challan Created Successfully",data: ActiveModel::Serializer::CollectionSerializer.new(@challans, each_serializer: ChallanSerializer)},status: :ok
+		if @challan.save!		
+			render json: {status:"SUCCESS",message: "Challan Created Successfully",data: ChallanSerializer.new(@challan)},status: :ok
+			# SampleMailer.sample_email(@challan.citizen).deliver
+			# NewChallanMailer.new_challan_email(@challan.citizen,@challan).deliver
+			SendNewChallanMailJob.perform_later(@challan)
 		else
 			render json: {status:"ERROR",message: "Challan Creation Failed",data: :false},status: :unprocessed_entity
 		end
@@ -58,7 +64,7 @@ class Api::V1::ChallansController < ApplicationController
 	private
 
 	def challan_params
-		params.require(:challan).permit(:challan_id,:challantype_id,:date_of_issue,:time_of_issue,:latitude,:longitude,:address,:registration_no)
+		params.require(:challan).permit(:challan_id,:challantype_id,:date_of_issue,:time_of_issue,:latitude,:longitude,:address)
 	end
 
 

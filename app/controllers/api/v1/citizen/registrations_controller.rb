@@ -6,6 +6,14 @@ class Api::V1::Citizen::RegistrationsController < ApplicationController
 
 	def create
 
+		puts "params"
+
+		puts params
+
+		puts "citizen_params"
+
+		puts citizen_params
+
 		@citizen = Citizen.new(citizen_params)
 		if(@citizen.save!)
 			render json: {status:"SUCCESS",message: "Registration Successful",data: @citizen.as_json(only: [:email,:mobile,:authentication_token,:first_name,:last_name,:dob,:aadhar_no,:dlnumber,:address,:pincode])},status: :created

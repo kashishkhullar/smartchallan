@@ -28,6 +28,8 @@ gem 'puma', '~> 3.7'
   gem 'simple_token_authentication', '~> 1.0' # see semver.org
   gem 'active_model_serializers', '~> 0.10.0'
   gem 'rack-cors', :require => 'rack/cors'
+  gem 'delayed_job_active_record'
+
 
 
 
