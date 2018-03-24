@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180324153136) do
+ActiveRecord::Schema.define(version: 20180324160754) do
 
   create_table "admin_keys", force: :cascade do |t|
     t.string "admin_key"
@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(version: 20180324153136) do
     t.date "due_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "paid", default: false
     t.index ["challantype_id"], name: "index_challans_on_challantype_id"
     t.index ["citizen_id"], name: "index_challans_on_citizen_id"
     t.index ["trafficpolice_id"], name: "index_challans_on_trafficpolice_id"
