@@ -16,9 +16,6 @@ class Api::V1::Citizen::SessionsController < ApplicationController
 		else
 			render json: {status:"ERROR",message: "Login Failed",data: :null},status: :unauthorized
 		end
-
-
-
 	end
 
 	def destroy
@@ -28,10 +25,10 @@ class Api::V1::Citizen::SessionsController < ApplicationController
 		current_citizen&.authentication_token = nil
 		if current_citizen&.save!
 			#render json: {status:"SUCCESS",message: "Logout Successful",data: current_citizen.as_json(only: [:first_name,:last_name,:dob,:email,:mobile,:aadhar_no,:address])},status: :destroyed
-			render json: {status:"SUCCESS",message: "Logout Successful",data: CitizenSerialzer.new(current_citizen)},status: :destroyed
+			render json: {status:"SUCCESS",message: "Logout Successful",data: CitizenSerializer.new(current_citizen)},status: :destroyed
 		else
 			#render json: {status:"ERROR",message: "Logout Failed",data: current_citizen.as_json(only: [:first_name,:last_name,:dob,:email,:mobile,:aadhar_no,:address])},status: :unauthorized
-			render json: {status:"SUCCESS",message: "Logout Failed",data: CitizenSerialzer.new(current_citizen)},status: :destroyed
+			render json: {status:"SUCCESS",message: "Logout Failed",data: CitizenSerializer.new(current_citizen)},status: :destroyed
 		end
 	end
 
