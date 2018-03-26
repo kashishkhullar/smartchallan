@@ -38,6 +38,8 @@ class Api::V1::Trafficpolice::SessionsController < ApplicationController
 	end
 
 	def trafficpolice_signed_out?
+				puts "trafficpolice signed in?"
+		puts current_trafficpolice
 		if current_trafficpolice.nil?
 			return true
 		else
@@ -47,6 +49,7 @@ class Api::V1::Trafficpolice::SessionsController < ApplicationController
 	end
 
 	def trafficpolice_signed_in?
+		puts "trafficpolice signed in?"
 		puts current_trafficpolice
 		if current_trafficpolice
 			return true

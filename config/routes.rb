@@ -17,6 +17,8 @@ Rails.application.routes.draw do
 		  	namespace :citizen, defaults: {format: :json} do
 		  		resources :sessions, only: [:create,:destroy]
 		  		resources :registrations, only: [:create,:destroy]
+          post 'history/paid' => 'history#paid'
+          post 'history/unpaid' => 'history#unpaid'
 		  	end
 		  	namespace :trafficpolice, defaults: {format: :json} do
 		  		resources :sessions, only: [:create,:destroy]

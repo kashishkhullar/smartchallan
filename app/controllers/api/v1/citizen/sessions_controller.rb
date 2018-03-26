@@ -7,6 +7,8 @@ class Api::V1::Citizen::SessionsController < ApplicationController
 	def create
 		puts citizen_params
 
+		puts "now herer"
+
 		@citizen = Citizen.where(email: citizen_params[:email],mobile: citizen_params[:mobile],aadhar_no: citizen_params["aadhar_no"]).first
 
 		if @citizen&.valid_password?(citizen_params[:password])
@@ -40,6 +42,8 @@ class Api::V1::Citizen::SessionsController < ApplicationController
 	end
 
 	def citizen_signed_out?
+		puts "citizen is logged out"
+		puts current_citizen
 		if current_citizen.nil?
 			return true
 		else
@@ -49,6 +53,9 @@ class Api::V1::Citizen::SessionsController < ApplicationController
 	end
 
 	def citizen_signed_in?
+				puts current_citizen.as_json
+				puts "filter here"
+
 		if current_citizen
 			return true
 		else

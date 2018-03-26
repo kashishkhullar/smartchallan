@@ -15,7 +15,7 @@ class Api::V1::Citizen::RegistrationsController < ApplicationController
 		puts citizen_params
 
 		@citizen = Citizen.new(citizen_params)
-		if(@citizen.save!)
+		if(@citizen.save)
 			render json: {status:"SUCCESS",message: "Registration Successful",data: @citizen.as_json(only: [:email,:mobile,:authentication_token,:first_name,:last_name,:dob,:aadhar_no,:dlnumber,:address,:pincode])},status: :created
 		else
 			render json: {status:"ERROR",message: "Registration Failed",data: :false},status: :unauthorized
@@ -30,7 +30,7 @@ class Api::V1::Citizen::RegistrationsController < ApplicationController
 		@citizen = Citizen.where(email: citizen_params["email"],mobile: citizen_params["mobile"],aadhar_no: citizen_params["aadhar_no"]).first
 
 		if @citizen&.valid_password?(citizen_params[:password])
-			if @citizen&.destroy!
+			if @citizen&.destroy
 				render json: {status: "SUCCESS",message: "Account Deleted",data: @citizen.as_json(only: [:email,:first_name,:last_name,:dob,:aadhar_no,:address,:pincode,:dlnumber])},status: :ok
 			else
 				render json:{status: "ERROR",message: "Failure",data: :false},status: :unprocessed_entity
@@ -54,7 +54,6 @@ class Api::V1::Citizen::RegistrationsController < ApplicationController
 	end
 
 	def citizen_signed_out?
-		puts current_citizen
 		if current_citizen.nil?
 			return true
 		else

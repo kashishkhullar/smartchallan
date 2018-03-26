@@ -17,7 +17,7 @@ acts_as_token_authentication_handler_for Trafficpolice, fallback: :none
 
 
 			@key = TrafficpoliceKey.where(trafficpolice_key: trafficpolice_params['trafficpolice_key']).first
-			puts @key.trafficpolice_key
+			# puts @key.trafficpolice_key
 
 			if @key
 				@trafficpolice = Trafficpolice.new(trafficpolice_params)
