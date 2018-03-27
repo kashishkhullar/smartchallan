@@ -45,14 +45,14 @@ class Api::V1::Citizen::RegistrationsController < ApplicationController
 
 	private
 
-	def citizen_signed_in?
-		if current_citizen
-			return true
-		else
-			render json:{status: "ERROR",message: "Unauthorized Access",data: :false},status: :unauthorized
-		end
+	# def citizen_signed_in?
+	# 	if current_citizen
+	# 		return true
+	# 	else
+	# 		render json:{status: "ERROR",message: "Unauthorized Access",data: :false},status: :unauthorized
+	# 	end
 
-	end
+	# end
 
 	def citizen_signed_out?
 		if current_citizen.nil?
