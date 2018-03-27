@@ -1,8 +1,8 @@
 class Api::V1::Citizen::RegistrationsController < ApplicationController
 	acts_as_token_authentication_handler_for Citizen, fallback: :none
 
-	before_action :citizen_signed_in?, only: [:destroy]
-	before_action :citizen_signed_out?, only: [:create]
+	# before_action :citizen_signed_in?, only: [:destroy]
+	# before_action :citizen_signed_out?, only: [:create]
 
 	def create
 
@@ -54,14 +54,14 @@ class Api::V1::Citizen::RegistrationsController < ApplicationController
 
 	# end
 
-	def citizen_signed_out?
-		if current_citizen.nil?
-			return true
-		else
-			render json: {status:"ERROR",message: "Already Logged In",data: current_citizen.as_json(only: [:email,:mobile,:authentication_token,:dlnumber,:first_name,:last_name,:dob,:aadhar_no,:address,:pincode])},status: :ok
-		end
+	# def citizen_signed_out?
+	# 	if current_citizen.nil?
+	# 		return true
+	# 	else
+	# 		render json: {status:"ERROR",message: "Already Logged In",data: current_citizen.as_json(only: [:email,:mobile,:authentication_token,:dlnumber,:first_name,:last_name,:dob,:aadhar_no,:address,:pincode])},status: :ok
+	# 	end
 
-	end
+	# end
 
 	def citizen_params
 		params.require(:citizen).permit(:email,:password,:password_confirmation,:mobile,:first_name,:last_name,:dob,:aadhar_no,:address,:dlnumber,:pincode)
