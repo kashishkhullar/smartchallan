@@ -82,8 +82,8 @@ acts_as_token_authentication_handler_for Trafficpolice, fallback: :none
 	end
 
 	def trafficpolice_params
-	  # params
-	  # puts "params as json"
+	  puts "params are here ayush"
+	  puts params
 	  # puts params.as_json
 	  # puts "test"
 	  # puts params.keys.first.as_json
